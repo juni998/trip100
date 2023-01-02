@@ -6,6 +6,7 @@ build/
 .idea/
 src/main/resources/application.yml
 
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
