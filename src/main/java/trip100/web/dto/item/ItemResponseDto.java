@@ -13,12 +13,16 @@ public class ItemResponseDto {
 
     private Long id;
     private String title;
+    private String author;
     private String content;
+
+
 
     @Builder
     public ItemResponseDto(Item entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
+        this.author = entity.getAuthor();
         this.content = entity.getContent();
     }
 }

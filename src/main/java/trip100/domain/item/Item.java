@@ -22,11 +22,14 @@ public class Item extends BaseTimeEntity {
 
     private String title;
 
+    private String author;
+
     private String content;
 
     @Builder
-    public Item(String title, String content) {
+    public Item(String title, String content, String author) {
         this.title = title;
+        this.author = author;
         this.content = content;
     }
 

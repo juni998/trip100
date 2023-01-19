@@ -5,7 +5,7 @@
     <h1>스프링 부트로 시작하는 웹 서비스 Ver.2</h1>
     <div class="row">
         <div class="col-md-6">
-            <a href="/post/save" role="button" class="btn btn-primary">글 등록</a>
+            <a href="/item/save" role="button" class="btn btn-primary">글 등록</a>
             {{#userName}}
                 Logged in as: <span id="user">{{userName}}</span>
                 <a href="/logout" class="btn btn-info active" role="button">Logout</a>
@@ -27,18 +27,16 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        {{#post}}
+        {{#item}}
             <tr>
                 <td>{{id}}</td>
-                <td><a href="/post/update/{{id}}">{{title}}</a></td>
+                <td><a href="/item/update/{{id}}">{{title}}</a></td>
                 <td>{{author}}</td>
                 <td>{{modifiedDate}}</td>
             </tr>
-        {{/post}}
+        {{/item}}
         </tbody>
 
     </table>
 </div>
-
-<script src="/js/item/item.js"></script>
 {{>layout/footer}}

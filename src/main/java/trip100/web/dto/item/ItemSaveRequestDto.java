@@ -12,17 +12,20 @@ public class ItemSaveRequestDto {
 
     private String title;
 
+    private String author;
     private String content;
 
     @Builder
-    public ItemSaveRequestDto(String title, String content) {
+    public ItemSaveRequestDto(String title, String author, String content) {
         this.title = title;
+        this.author = author;
         this.content = content;
     }
 
     public Item toEntity() {
         return Item.builder()
                 .title(title)
+                .author(author)
                 .content(content)
                 .build();
     }
