@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import trip100.config.auth.LoginUser;
+import trip100.config.auth.dto.SessionUser;
 import trip100.service.item.ItemService;
 import trip100.web.dto.item.ItemResponseDto;
 
@@ -15,7 +17,10 @@ public class IndexController {
     private final ItemService itemService;
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model, @LoginUser SessionUser user) {
+        if (user != null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "index";
     }
 
