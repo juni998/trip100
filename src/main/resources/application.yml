@@ -15,3 +15,6 @@ spring:
   mustache:
     suffix: .mustache
     prefix: classpath:/templates/
+
+    session:
+      store-type: jdbc
