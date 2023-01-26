@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import trip100.domain.item.Address;
 import trip100.domain.item.Item;
 
 @Getter
@@ -16,6 +17,10 @@ public class ItemResponseDto {
     private String author;
     private String content;
 
+    private int price;
+
+    private Address address;
+
 
 
     @Builder
@@ -24,5 +29,7 @@ public class ItemResponseDto {
         this.title = entity.getTitle();
         this.author = entity.getAuthor();
         this.content = entity.getContent();
+        this.price = entity.getPrice();
+        this.address = entity.getAddress();
     }
 }

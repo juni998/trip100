@@ -30,7 +30,7 @@ public class ItemService {
                 () -> new IllegalArgumentException("해당 아이템이 없습니다.")
         );
 
-        item.update(requestDto.getTitle(), requestDto.getContent());
+        item.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getPrice(), requestDto.getAddress());
 
         return id;
     }
