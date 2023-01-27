@@ -1,4 +1,4 @@
-package trip100.web;
+package trip100.web.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package trip100.web;
+package trip100.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
