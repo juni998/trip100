@@ -5,9 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import trip100.domain.BaseTimeEntity;
-import trip100.domain.review.Review;
+import trip100.exception.NotEnoughStockException;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,28 +27,36 @@ public class Item extends BaseTimeEntity {
 
     private String content;
 
-    @Embedded
-    private Address address;
-
     private int price;
 
-    @OneToMany(mappedBy = "item")
-    private Review review;
+    private int stockQuantity;
+
 
     @Builder
-    public Item(String title, String content, String author, int price, Address address, Review review) {
+    public Item(String title, String author, String content, int price, int stockQuantity) {
         this.title = title;
         this.author = author;
         this.content = content;
         this.price = price;
-        this.address = address;
-        this.review = review;
+        this.stockQuantity = stockQuantity;
     }
 
-    public void update(String title, String content, int price, Address address) {
+    public void update(String title, String content, int price, int stockQuantity) {
         this.title = title;
         this.content = content;
         this.price = price;
-        this.address = address;
+        this.stockQuantity = stockQuantity;
+    }
+
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStock(int quantity) {
+        int restStock = this.stockQuantity - quantity;
+        if (restStock < 0) {
+            throw new NotEnoughStockException("재고수량이 부족합니다");
+        }
+        this.stockQuantity = restStock;
     }
 }

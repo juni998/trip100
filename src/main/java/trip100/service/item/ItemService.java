@@ -30,11 +30,12 @@ public class ItemService {
                 () -> new IllegalArgumentException("해당 아이템이 없습니다.")
         );
 
-        item.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getPrice(), requestDto.getAddress());
+        item.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getPrice(), requestDto.getStockQuantity());
 
         return id;
     }
 
+    @Transactional(readOnly = true)
     public ItemResponseDto findById(Long id) {
         Item entity = itemRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 아이템이 없습니다")

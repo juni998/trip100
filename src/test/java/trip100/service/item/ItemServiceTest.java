@@ -22,10 +22,7 @@ class ItemServiceTest {
 
     @Test
     void 아이템_저장() {
-        Long saveItem = itemService.save(ItemSaveRequestDto.builder()
-                .title("제목")
-                .content("내용")
-                .build());
+        Long saveItem = saveItem();
 
         ItemResponseDto findItem = itemService.findById(saveItem);
 
@@ -34,10 +31,7 @@ class ItemServiceTest {
 
     @Test
     void 아이템_수정() {
-        Long saveItem = itemService.save(ItemSaveRequestDto.builder()
-                .title("제목")
-                .content("내용")
-                .build());
+        Long saveItem = saveItem();
 
         Long updateItem = itemService.update(saveItem, ItemUpdateRequestDto.builder()
                 .title("변경된 제목")
@@ -53,10 +47,7 @@ class ItemServiceTest {
 
     @Test
     void 아이템_삭제(){
-        Long saveItem = itemService.save(ItemSaveRequestDto.builder()
-                .title("제목")
-                .content("내용")
-                .build());
+        Long saveItem = saveItem();
 
         itemService.delete(saveItem);
 
@@ -65,6 +56,14 @@ class ItemServiceTest {
                 .hasMessageContaining("해당 아이템이 없습니다");
     }
 
+    private Long saveItem() {
+        return itemService.save(ItemSaveRequestDto.builder()
+                .title("제목")
+                .content("내용")
+                .price(10000)
+                .stockQuantity(100)
+                .build());
+    }
 
 
 

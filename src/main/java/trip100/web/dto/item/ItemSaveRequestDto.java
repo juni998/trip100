@@ -11,15 +11,21 @@ import trip100.domain.item.Item;
 public class ItemSaveRequestDto {
 
     private String title;
-
     private String author;
     private String content;
 
+    private int price;
+
+    private int stockQuantity;
+
+
     @Builder
-    public ItemSaveRequestDto(String title, String author, String content) {
+    public ItemSaveRequestDto(String title, String author, String content, int price, int stockQuantity) {
         this.title = title;
         this.author = author;
         this.content = content;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
     }
 
     public Item toEntity() {
@@ -27,6 +33,8 @@ public class ItemSaveRequestDto {
                 .title(title)
                 .author(author)
                 .content(content)
+                .price(price)
+                .stockQuantity(stockQuantity)
                 .build();
     }
 }
