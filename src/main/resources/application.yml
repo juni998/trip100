@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   profiles:
     include: oauth
@@ -6,13 +9,18 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        globally_quoted_identifiers: true
+        ddl-auto: create
         dialect: org.hibernate.dialect.MySQL57Dialect
         format_sql: true
+        default_batch_fetch_size: 100
+
   h2:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=MYSQL
+    hikari:
+      jdbc-url: jdbc:h2:mem:testdb;MODE=MYSQL
 
 
   mustache:
