@@ -1,6 +1,7 @@
 package trip100.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import trip100.web.dto.item.ItemResponseDto;
 
 @RequiredArgsConstructor
 @Controller
+@Slf4j
 public class IndexController {
     private final ItemService itemService;
 
@@ -25,9 +27,10 @@ public class IndexController {
     }
 
     @GetMapping("/item")
-    public String item(Model model) {
+    public String item(Model model, @LoginUser SessionUser user) {
+        log.info("userId : " + user.getId());
         model.addAttribute("item", itemService.findAllDesc());
-
+        model.addAttribute("user_id", user.getId());
         return "item/item-list";
     }
 
@@ -37,10 +40,20 @@ public class IndexController {
     }
 
     @GetMapping("/item/update/{id}")
-    public String itemUpdate(@PathVariable Long id, Model model) {
-        ItemResponseDto dto = itemService.findById(id);
-        model.addAttribute("item", dto);
+    public String itemUpdate(@PathVariable Long id, Model model, @LoginUser SessionUser user) {
+        log.info("userId : " + user.getId());
+        model.addAttribute("item", itemService.findById(id));
+        model.addAttribute("user_id", user.getId());
         return "item/item-update";
+    }
+
+    @GetMapping("/order/{itemId}")
+    public String order(@PathVariable Long itemId, Model model, @LoginUser SessionUser user) {
+        log.info("userId : " + user.getId());
+        log.info("itemId : " + itemId);
+        model.addAttribute("item", itemService.findById(itemId));
+        model.addAttribute("user", user);
+        return "order/order-save";
     }
 
 }

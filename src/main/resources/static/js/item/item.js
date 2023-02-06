@@ -10,6 +10,9 @@ var main = {
         $('#btn-delete').on('click', function () {
             _this.delete();
         });
+        $('#btn-order').on('click', function () {
+            _this.order();
+        });
     },
     save : function() {
         var data = {
@@ -64,6 +67,6 @@ var main = {
         }).fail(function (error){
             alert(JSON.stringify(error));
         });
-    }
+    },
 };
 main.init();

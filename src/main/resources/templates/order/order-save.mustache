@@ -1,0 +1,46 @@
+{{>layout/header}}
+
+
+
+<div class="container">
+    <h1>주문</h1>
+    <div class="col-md-4">
+        <form>
+            <h2>구매자정보</h2>
+            <input type="text" class="form-control" id="userId" value="{{user.id}}" hidden>
+            <div class="form-group">
+
+                <label for="name">이름</label>
+                <input type="text" class="form-control" id="name" value="{{user.name}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="text" class="form-control" id="email" value="{{user.email}}" readonly>
+            </div>
+
+            <h2>주문내역</h2>
+            <input type="text" class="form-control" id="itemId" value="{{item.id}}" hidden>
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id="title" value="{{item.title}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="count">주문 수량</label>
+                <input type="number" class="form-control" id="count" placeholder="수량 입력">
+            </div>
+
+            <h2>결제정보</h2>
+            <div class="form-group">
+                <label for="price">가격</label>
+                <input type="number" class="form-control" id="price" value="{{item.price}}" readonly>
+            </div>
+        </form>
+        <a href="/" role="button" class="btn btn-secondary">취소</a>
+        <button type="button" class="btn btn-primary" id="btn-save">주문</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/js/order/order.js"></script>
+{{>layout/footer}}

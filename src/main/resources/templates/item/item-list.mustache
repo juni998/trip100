@@ -3,6 +3,9 @@
 
 <div class="container">
     <h1>스프링 부트로 시작하는 웹 서비스 Ver.2</h1>
+    {{#userName}}
+        {{userName}}
+    {{/userName}}
     <div class="row">
         <div class="col-md-6">
             <a href="/item/save" role="button" class="btn btn-primary">글 등록</a>
@@ -39,4 +42,7 @@
 
     </table>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/js/item/item.js"></script>
 {{>layout/footer}}

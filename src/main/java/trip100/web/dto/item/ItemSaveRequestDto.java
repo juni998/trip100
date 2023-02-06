@@ -13,7 +13,6 @@ public class ItemSaveRequestDto {
     private String title;
     private String author;
     private String content;
-
     private int price;
 
     private int stockQuantity;
