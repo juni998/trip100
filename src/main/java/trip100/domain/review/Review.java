@@ -9,28 +9,26 @@ import trip100.domain.user.User;
 
 import javax.persistence.*;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
-public class Review extends BaseTimeEntity {
 
-    @Id @GeneratedValue
-    @Column(name = "review_id")
-    private Long id;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    private int scope;
-
-    @Column(name = "review_content")
-    private String content;
-
-
-
-}
+//public class Review extends BaseTimeEntity {
+//
+//    @Id @GeneratedValue
+//    @Column(name = "review_id")
+//    private Long id;
+//
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "item_id")
+//    private Item item;
+//
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user;
+//
+//    private int scope;
+//
+//    @Column(name = "review_content")
+//    private String content;
+//
+//
+//
+//}

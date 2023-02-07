@@ -56,4 +56,10 @@ public class IndexController {
         return "order/order-save";
     }
 
+    @GetMapping("/cart")
+    public String cart(Model model, @LoginUser SessionUser user) {
+
+
+    }
+
 }

@@ -10,7 +10,6 @@ import trip100.domain.order.Order;
 import javax.persistence.*;
 
 @Getter
-@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Delivery {
@@ -34,5 +33,9 @@ public class Delivery {
         this.order = order;
         this.address = address;
         this.status = status;
+    }
+
+    public void addOrderDelivery(Order order) {
+        this.order = order;
     }
 }

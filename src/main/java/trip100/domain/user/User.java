@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import trip100.domain.BaseTimeEntity;
 import trip100.domain.address.Address;
+import trip100.domain.cart.Cart;
 import trip100.domain.order.Order;
 
 import javax.persistence.*;
@@ -32,6 +33,10 @@ public class User {
 
     @Embedded
     private Address address;
+
+    @OneToMany(mappedBy = "user")
+    private List<Cart> cart = new ArrayList<>();
+
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private List<Review> reviews = new ArrayList<>();

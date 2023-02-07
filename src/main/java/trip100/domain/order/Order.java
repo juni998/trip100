@@ -56,13 +56,7 @@ public class Order {
     }
 
 
-
-
-
-
-
     public static Order createOrder(User user, Delivery delivery, OrderItem... orderItems) {
-
         return builder()
                 .user(user)
                 .delivery(delivery)

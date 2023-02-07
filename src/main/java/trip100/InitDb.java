@@ -42,8 +42,36 @@ public class InitDb {
                     .stockQuantity(10)
                     .build();
 
+            Item item1 = Item.builder()
+                    .title("아이템제목2")
+                    .author(user.getName())
+                    .content("아이템2")
+                    .price(10000)
+                    .stockQuantity(10)
+                    .build();
+
+            Item item2 = Item.builder()
+                    .title("아이템제목3")
+                    .author(user.getName())
+                    .content("아이템3")
+                    .price(10000)
+                    .stockQuantity(10)
+                    .build();
+
+            Item item3 = Item.builder()
+                    .title("아이템제목4")
+                    .author(user.getName())
+                    .content("아이템4")
+                    .price(10000)
+                    .stockQuantity(10)
+                    .build();
+
             entityManager.persist(user);
             entityManager.persist(item);
+            entityManager.persist(item1);
+            entityManager.persist(item2);
+            entityManager.persist(item3);
+
         }
     }
 

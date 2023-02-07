@@ -103,7 +103,6 @@ class OrderServiceTest {
 
     }
 
-
     private User createUser() {
         User user = User.builder()
                 .name("이름")
