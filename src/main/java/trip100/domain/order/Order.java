@@ -42,48 +42,42 @@ public class Order {
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus orderStatus;
 
     @Builder
-    public Order(User user, List<OrderItem> orderItems, Delivery delivery, LocalDateTime orderDate, OrderStatus status) {
+    public Order(User user, Delivery delivery, List<OrderItem> orderItems, LocalDateTime orderDate, OrderStatus orderStatus) {
         this.user = user;
+        this.delivery = delivery;
         this.orderItems = orderItems;
-        this.delivery = delivery;
         this.orderDate = orderDate;
-        this.status = status;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+        this.orderStatus = orderStatus;
         user.getOrders().add(this);
+        delivery.builder().order(this);
     }
 
-    public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-        orderItem.builder().order(this).build();
-    }
 
-    public void setDelivery(Delivery delivery) {
-        this.delivery = delivery;
-        delivery.builder().order(this).build();
-    }
+
+
+
+
 
     public static Order createOrder(User user, Delivery delivery, OrderItem... orderItems) {
+
         return builder()
                 .user(user)
                 .delivery(delivery)
                 .orderItems(Arrays.asList(orderItems))
-                .status(OrderStatus.ORDER)
+                .orderStatus(OrderStatus.ORDER)
                 .orderDate(LocalDateTime.now())
                 .build();
+
     }
 
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다");
         }
-        this.status = OrderStatus.CANCEL;
-//        Order order = this.builder().status(OrderStatus.CANCEL).build();
+        this.orderStatus = OrderStatus.CANCEL;
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
@@ -94,6 +88,5 @@ public class Order {
                 .mapToInt(OrderItem::getTotalPrice)
                 .sum();
     }
-
 
 }

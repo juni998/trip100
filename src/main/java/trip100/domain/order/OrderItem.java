@@ -34,11 +34,13 @@ public class OrderItem {
         this.order = order;
         this.orderPrice = orderPrice;
         this.count = count;
+
     }
 
-    /**
-     * remove , return 수정 필요할 수도 있음 (Test필요)
-     */
+    public void addOrder(Order order) {
+        this.order = order;
+    }
+
     public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
         item.removeStock(count);
 

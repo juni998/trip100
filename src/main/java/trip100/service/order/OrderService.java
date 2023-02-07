@@ -27,6 +27,7 @@ public class OrderService {
     private final ItemRepository itemRepository;
 
     public Long order(OrderSaveRequestDto requestDto) {
+        //엔티티 조회
         User user = userRepository.findById(requestDto.getUserId()).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
         );
@@ -34,13 +35,31 @@ public class OrderService {
                 () -> new IllegalArgumentException("해당 아이템이 없습니다.")
         );
 
+        //배송정보 생성
         Delivery delivery = Delivery.builder().address(user.getAddress()).build();
 
+        //주문상품 생성
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), requestDto.getCount());
 
+        System.out.println("주문상품 생성 ===================");
+        System.out.println("orderItem = " + orderItem.getOrder());
+
+        //주문 생성
         Order order = Order.createOrder(user, delivery, orderItem);
 
+        System.out.println("주문 생성 ===================");
+        System.out.println("orderItem = " + orderItem.getOrder());
+
+        //주문 저장
         orderRepository.save(order);
+        orderItem.addOrder(order);
+
+
+
+        System.out.println("주문저장 ===================");
+        System.out.println("orderItem = " + orderItem.getOrder());
+        System.out.println("user.getOrders() = " + user.getOrders());
+
 
         return order.getId();
     }

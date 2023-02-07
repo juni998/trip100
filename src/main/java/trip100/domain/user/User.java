@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class User {
@@ -34,17 +35,17 @@ public class User {
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private List<Review> reviews = new ArrayList<>();
+
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-    public User(String name, String email, String picture, Role role, Address address, List<Order> orders) {
+    public User(String name, String email, String picture, Role role, Address address) {
         this.name = name;
         this.email = email;
         this.picture = picture;
         this.role = role;
         this.address = address;
-        this.orders = orders;
     }
 
     public User update(String name, String picture) {
