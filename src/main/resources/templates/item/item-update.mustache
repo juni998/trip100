@@ -25,6 +25,14 @@
                 <label for="content">내용</label>
                 <textarea class="form-control" id="content" placeholder="내용 입력">{{item.content}}</textarea>
             </div>
+            <div class="form-group">
+                <label for="price">가격</label>
+                <input type="number" class="form-control" id="price" value="{{item.price}}">
+            </div>
+            <div class="form-group">
+                <label for="content">수량</label>
+                <input type="number" class="form-control" id="stockQuantity" value="{{item.stockQuantity}}">
+            </div>
         </form>
         <a href="/" role="button" class="btn btn-secondary">취소</a>
         <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>

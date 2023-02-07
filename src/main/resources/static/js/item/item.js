@@ -18,7 +18,10 @@ var main = {
         var data = {
             title: $('#title').val(),
             author: $('#author').val(),
-            content: $('#content').val()
+            content: $('#content').val(),
+            price: $('#price').val(),
+            stockQuantity: $('#stockQuantity').val()
+
         };
         $.ajax({
             type: 'POST',
@@ -36,7 +39,10 @@ var main = {
     update : function () {
         var data = {
             title: $('#title').val(),
-            content: $('#content').val()
+            content: $('#content').val(),
+            price: $('#price').val(),
+            stockQuantity: $('#stockQuantity').val()
+
         };
 
         var id = $('#id').val();
