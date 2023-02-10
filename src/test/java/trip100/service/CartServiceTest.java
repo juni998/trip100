@@ -89,6 +89,31 @@ class CartServiceTest {
         assertThat(user.getId()).isEqualTo(allById.get(0).getUser().getId());
     }
 
+    @Test
+    void 저장된_아이템을_장바구니에서_삭제한다() {
+        User user = createUser();
+        Item item = createItem();
+        Item item2 = createItem();
+
+        AddCartRequestDto dto1 = AddCartRequestDto.builder()
+                .itemId(item.getId())
+                .count(1)
+                .build();
+
+        AddCartRequestDto dto2 = AddCartRequestDto.builder()
+                .itemId(item2.getId())
+                .count(3)
+                .build();
+
+        cartService.addItem(user.getId(), dto1);
+        cartService.addItem(user.getId(), dto2);
+
+        cartService.deleteCart(user.getId());
+
+        assertThat(1).isEqualTo(cartRepository.findAll().size());
+
+    }
+
 
 
 
