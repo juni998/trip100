@@ -99,6 +99,47 @@ class OrderServiceTest {
 
     }
 
+    @Test
+    void 주문내역_조회() {
+        User user = createUser();
+        Item item = createItem();
+        Item item1 = createItem();
+        Item item2 = createItem();
+        int orderCount = 2;
+
+
+        OrderSaveRequestDto orderSaveRequestDto1 = OrderSaveRequestDto.builder()
+                .userId(user.getId())
+                .itemId(item.getId())
+                .count(orderCount)
+                .build();
+
+        OrderSaveRequestDto orderSaveRequestDto2 = OrderSaveRequestDto.builder()
+                .userId(user.getId())
+                .itemId(item1.getId())
+                .count(orderCount)
+                .build();
+
+        OrderSaveRequestDto orderSaveRequestDto3 = OrderSaveRequestDto.builder()
+                .userId(user.getId())
+                .itemId(item2.getId())
+                .count(orderCount)
+                .build();
+
+        orderService.order(orderSaveRequestDto1);
+        orderService.order(orderSaveRequestDto2);
+        orderService.order(orderSaveRequestDto3);
+
+        List<Order> list = orderService.findList(user.getId());
+
+        for (Order order : list) {
+            System.out.println("order = " + order);
+        }
+
+        assertThat(3).isEqualTo(list.size());
+
+    }
+
     private User createUser() {
         User user = User.builder()
                 .name("이름")
