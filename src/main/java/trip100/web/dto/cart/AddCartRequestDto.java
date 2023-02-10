@@ -9,16 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AddCartRequestDto {
 
-    private Long userId;
-
     private Long itemId;
 
-    private int quantity;
+    private int count;
 
     @Builder
-    public AddCartRequestDto(Long userId, Long itemId, int quantity) {
-        this.userId = userId;
+    public AddCartRequestDto(Long itemId, int count) {
         this.itemId = itemId;
-        this.quantity = quantity;
+        this.count = count;
     }
 }

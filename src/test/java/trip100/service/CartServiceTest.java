@@ -38,17 +38,58 @@ class CartServiceTest {
         Item item = createItem();
 
         AddCartRequestDto addCartRequestDto = AddCartRequestDto.builder()
-                .userId(user.getId())
                 .itemId(item.getId())
-                .quantity(5)
+                .count(5)
                 .build();
 
-        cartService.addItem(addCartRequestDto);
+        cartService.addItem(user.getId(), addCartRequestDto);
 
         Cart getCart = cartRepository.findAll().get(0);
 
-        assertThat(5).isEqualTo(getCart.getQuantity());
+        assertThat(5).isEqualTo(getCart.getCount());
     }
+
+    @Test
+    void 카트에_여러_상품이_저장되고_조회한다() {
+        User user = createUser();
+        Item item1 = createItem();
+        Item item2 = createItem();
+        Item item3 = createItem();
+        Item item4 = createItem();
+
+
+        AddCartRequestDto dto1 = AddCartRequestDto.builder()
+                .itemId(item1.getId())
+                .count(1)
+                .build();
+
+        AddCartRequestDto dto2 = AddCartRequestDto.builder()
+                .itemId(item2.getId())
+                .count(1)
+                .build();
+
+        AddCartRequestDto dto3 = AddCartRequestDto.builder()
+                .itemId(item3.getId())
+                .count(1)
+                .build();
+
+        AddCartRequestDto dto4 = AddCartRequestDto.builder()
+                .itemId(item4.getId())
+                .count(1)
+                .build();
+
+        cartService.addItem(user.getId(), dto1);
+        cartService.addItem(user.getId(), dto2);
+        cartService.addItem(user.getId(), dto3);
+        cartService.addItem(user.getId(), dto4);
+
+        List<Cart> allById = cartRepository.findListByUserId(user.getId());
+
+        assertThat(4).isEqualTo(allById.size());
+        assertThat(user.getId()).isEqualTo(allById.get(0).getUser().getId());
+    }
+
+
 
 
     private User createUser() {

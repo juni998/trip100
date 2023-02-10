@@ -1,22 +1,9 @@
 {{>layout/header}}
 
-
 <div class="container">
     <h1>장바구니</h1>
-    {{#userName}}
-        {{userName}}
-    {{/userName}}
     <div class="row">
-        <div class="col-md-6">
-            <a href="/item/save" role="button" class="btn btn-primary">글 등록</a>
-            {{#userName}}
-                Logged in as: <span id="user">{{userName}}</span>
-                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
-            {{/userName}}
-            {{^userName}}
-                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
-            {{/userName}}
-        </div>
+
     </div>
     <br>
     <!-- 목록 출력 영역 -->
@@ -24,21 +11,23 @@
         <thead class="thead-strong">
         <tr>
             <th>상품정보</th>
+            <th>구매수량</th>
             <th>가격</th>
+            <th>삭제</th>
         </tr>
         </thead>
         <tbody id="tbody">
         {{#cart}}
             <tr>
-                <td><a href="/item/update/{{id}}">{{title}}</a></td>
+                <td>{{title}}</td>
+                <td>{{count}}</td>
                 <td>{{price}}</td>
+                <td><a href="/cart/delete/{{id}}">삭제</a></td>
             </tr>
         {{/cart}}
         </tbody>
-
     </table>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="/js/cart/cart.js"></script>
 {{>layout/footer}}

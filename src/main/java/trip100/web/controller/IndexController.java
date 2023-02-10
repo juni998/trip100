@@ -2,21 +2,25 @@ package trip100.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import trip100.config.auth.LoginUser;
 import trip100.config.auth.dto.SessionUser;
-import trip100.service.item.ItemService;
-import trip100.web.dto.item.ItemResponseDto;
+import trip100.service.CartService;
+import trip100.service.ItemService;
+import trip100.service.OrderService;
 
 @RequiredArgsConstructor
 @Controller
 @Slf4j
 public class IndexController {
     private final ItemService itemService;
+
+    private final CartService cartService;
+
+    private final OrderService orderService;
 
     @GetMapping("/")
     public String index(Model model, @LoginUser SessionUser user) {
@@ -56,10 +60,18 @@ public class IndexController {
         return "order/order-save";
     }
 
-    @GetMapping("/cart")
-    public String cart(Model model, @LoginUser SessionUser user) {
+    @GetMapping("/cart/list")
+    public String cartList(Model model, @LoginUser SessionUser user) {
+        model.addAttribute("cart", cartService.findAll(user.getId()));
+        model.addAttribute("userId", user.getId());
+        return "cart/cart-list";
+    }
 
-
+    @GetMapping("/order/list")
+    public String orderList(Model model, @LoginUser SessionUser user) {
+        model.addAttribute("order", orderService.findList(user.getId()));
+        model.addAttribute("userId", user.getId());
+        return "order/order-list";
     }
 
 }

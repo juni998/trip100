@@ -26,14 +26,14 @@ public class Cart {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private int quantity;
+    private int count;
 
 
     @Builder
-    public Cart(User user, Item item, int quantity) {
+    public Cart(User user, Item item, int count) {
         this.user = user;
         this.item = item;
-        this.quantity = quantity;
+        this.count = count;
     }
 
     public void createCart(User user) {
@@ -41,12 +41,12 @@ public class Cart {
     }
 
 
-    public static Cart addCart(User user, Item item, int quantity) {
+    public static Cart addCart(User user, Item item, int count) {
 
         return builder()
                 .user(user)
                 .item(item)
-                .quantity(quantity)
+                .count(count)
                 .build();
     }
 }
