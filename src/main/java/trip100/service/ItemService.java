@@ -1,4 +1,4 @@
-package trip100.service.item;
+package trip100.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

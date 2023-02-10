@@ -1,4 +1,4 @@
-package trip100.service.order;
+package trip100.service;
 
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.agent.builder.AgentBuilder;
