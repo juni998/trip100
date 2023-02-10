@@ -1,17 +1,15 @@
 package trip100.service.item;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import trip100.domain.item.ItemRepository;
+import trip100.service.ItemService;
 import trip100.web.dto.item.ItemResponseDto;
 import trip100.web.dto.item.ItemSaveRequestDto;
 import trip100.web.dto.item.ItemUpdateRequestDto;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

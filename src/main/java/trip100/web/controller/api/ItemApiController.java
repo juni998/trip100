@@ -2,7 +2,7 @@ package trip100.web.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import trip100.service.item.ItemService;
+import trip100.service.ItemService;
 import trip100.web.dto.item.ItemResponseDto;
 import trip100.web.dto.item.ItemSaveRequestDto;
 import trip100.web.dto.item.ItemUpdateRequestDto;

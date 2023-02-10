@@ -1,6 +1,5 @@
 package trip100.service.order;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,18 +12,15 @@ import trip100.domain.order.OrderStatus;
 import trip100.domain.user.Role;
 import trip100.domain.user.User;
 import trip100.exception.NotEnoughStockException;
-import trip100.service.item.ItemService;
-import trip100.web.dto.item.ItemSaveRequestDto;
+import trip100.service.OrderService;
 import trip100.web.dto.order.OrderSaveRequestDto;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
