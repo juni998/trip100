@@ -8,6 +8,7 @@ import trip100.domain.BaseTimeEntity;
 import trip100.domain.address.Address;
 import trip100.domain.cart.Cart;
 import trip100.domain.order.Order;
+import trip100.domain.review.Review;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,9 +38,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Cart> cart = new ArrayList<>();
 
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private List<Review> reviews = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();

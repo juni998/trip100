@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import trip100.domain.BaseTimeEntity;
+import trip100.domain.review.Review;
 import trip100.exception.NotEnoughStockException;
 
 import javax.persistence.*;
@@ -30,6 +31,9 @@ public class Item extends BaseTimeEntity {
     private int price;
 
     private int stockQuantity;
+
+    @OneToMany(mappedBy = "item")
+    private List<Review> reviews = new ArrayList<>();
 
 
     @Builder
