@@ -20,7 +20,6 @@ public class IndexController {
 
     private final CartService cartService;
 
-    private final OrderService orderService;
 
     @GetMapping("/")
     public String index(Model model, @LoginUser SessionUser user) {
@@ -67,11 +66,5 @@ public class IndexController {
         return "cart/cart-list";
     }
 
-    @GetMapping("/order/list")
-    public String orderList(Model model, @LoginUser SessionUser user) {
-        model.addAttribute("order", orderService.findList(user.getId()));
-        model.addAttribute("userId", user.getId());
-        return "order/order-list";
-    }
 
 }
