@@ -6,6 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import trip100.web.dto.item.ItemListResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +32,7 @@ class ItemRepositoryTest {
      * 아이템 저장 실패도 만들 것
      */
 
-    @Test
+
     @DisplayName("아이템 저장 + 불러오기")
     void item_save() {
         String title = "테스트 아이템";
@@ -69,7 +72,8 @@ class ItemRepositoryTest {
     }
 
     @Test
-    void 아이템_리스트_아이템_내림차순_정렬() {
+    @DisplayName("아이템 리스트가 내림차순으로 보여진다")
+    void item_list_desc() {
         itemRepository.save(Item.builder()
                 .title("제목1")
                 .content("내용1")
@@ -91,4 +95,5 @@ class ItemRepositoryTest {
         assertThat(allDesc.get(2).getTitle()).isEqualTo("제목1");
 
     }
+
 }
