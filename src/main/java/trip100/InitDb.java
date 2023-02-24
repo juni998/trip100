@@ -1,6 +1,7 @@
 package trip100;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import trip100.domain.item.Item;
@@ -11,6 +12,7 @@ import trip100.web.dto.item.ItemSaveRequestDto;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
+@Profile("local")
 @Component
 @RequiredArgsConstructor
 public class InitDb {
@@ -34,43 +36,18 @@ public class InitDb {
                     .role(Role.SELLER)
                     .build();
 
-            Item item = Item.builder()
-                    .title("아이템제목")
-                    .author(user.getName())
-                    .content("아이템1")
-                    .price(10000)
-                    .stockQuantity(10)
-                    .build();
-
-            Item item1 = Item.builder()
-                    .title("아이템제목2")
-                    .author(user.getName())
-                    .content("아이템2")
-                    .price(10000)
-                    .stockQuantity(10)
-                    .build();
-
-            Item item2 = Item.builder()
-                    .title("아이템제목3")
-                    .author(user.getName())
-                    .content("아이템3")
-                    .price(10000)
-                    .stockQuantity(10)
-                    .build();
-
-            Item item3 = Item.builder()
-                    .title("아이템제목4")
-                    .author(user.getName())
-                    .content("아이템4")
-                    .price(10000)
-                    .stockQuantity(10)
-                    .build();
-
             entityManager.persist(user);
-            entityManager.persist(item);
-            entityManager.persist(item1);
-            entityManager.persist(item2);
-            entityManager.persist(item3);
+
+            for (int i = 0; i < 100; i++) {
+                entityManager.persist(Item.builder()
+                        .title(("아이템 제목") + i)
+                        .author(user.getName())
+                        .content(("아이템") + i)
+                        .price(10000 + i)
+                        .stockQuantity(10 + i)
+                        .build()
+                );
+            }
 
         }
     }

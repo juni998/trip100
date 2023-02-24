@@ -1,11 +1,17 @@
 package trip100.web.controller.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import trip100.config.auth.LoginUser;
+import trip100.config.auth.dto.SessionUser;
+import trip100.domain.item.ItemRepository;
 import trip100.service.ItemService;
-import trip100.web.dto.item.ItemResponseDto;
-import trip100.web.dto.item.ItemSaveRequestDto;
-import trip100.web.dto.item.ItemUpdateRequestDto;
+import trip100.web.dto.item.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,9 +20,12 @@ public class ItemApiController {
 
     private final ItemService itemService;
 
+    private final ItemRepository itemRepository;
+
+
     @PostMapping("/save")
-    public Long item_save(@RequestBody ItemSaveRequestDto requestDto) {
-        return itemService.save(requestDto);
+    public void item_save(@RequestBody ItemSaveRequestDto requestDto) {
+        itemService.save(requestDto);
     }
 
     @GetMapping("/{id}")
@@ -24,15 +33,19 @@ public class ItemApiController {
         return itemService.findById(id);
     }
 
-    @PutMapping("/{id}")
-    public Long update(@PathVariable Long id, @RequestBody
+    @PatchMapping("/{id}")
+    public void update(@PathVariable Long id, @RequestBody
     ItemUpdateRequestDto requestDto) {
-        return itemService.update(id, requestDto);
+        itemService.update(id, requestDto);
     }
 
     @DeleteMapping("/{id}")
-    public Long delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         itemService.delete(id);
-        return id;
+    }
+
+    @GetMapping("/list")
+    public List<ItemListResponseDto> item_list(@ModelAttribute ItemSearch itemSearch) {
+        return itemService.findAll(itemSearch);
     }
 }

@@ -45,7 +45,7 @@ public class Item extends BaseTimeEntity {
         this.stockQuantity = stockQuantity;
     }
 
-    public void update(String title, String content, int price, int stockQuantity) {
+    public void update(ItemEditor itemEditor) {
         this.title = title;
         this.content = content;
         this.price = price;
@@ -62,5 +62,13 @@ public class Item extends BaseTimeEntity {
             throw new NotEnoughStockException("재고수량이 부족합니다");
         }
         this.stockQuantity = restStock;
+    }
+
+    public ItemEditor.ItemEditorBuilder toEditor() {
+        return ItemEditor.builder()
+                .title(title)
+                .content(content)
+                .price(price)
+                .stockQuantity(stockQuantity);
     }
 }

@@ -1,14 +1,14 @@
 package trip100.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import trip100.domain.item.Item;
+import trip100.domain.item.ItemEditor;
 import trip100.domain.item.ItemRepository;
-import trip100.web.dto.item.ItemListResponseDto;
-import trip100.web.dto.item.ItemResponseDto;
-import trip100.web.dto.item.ItemSaveRequestDto;
-import trip100.web.dto.item.ItemUpdateRequestDto;
+import trip100.web.dto.item.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,19 +20,28 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public Long save(ItemSaveRequestDto requestDto) {
+    public void save(ItemSaveRequestDto requestDto) {
 
-        return itemRepository.save(requestDto.toEntity()).getId();
+        itemRepository.save(requestDto.toEntity()).getId();
     }
 
-    public Long update(Long id, ItemUpdateRequestDto requestDto) {
+    public void update(Long id, ItemUpdateRequestDto requestDto) {
         Item item = itemRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 아이템이 없습니다.")
         );
 
-        item.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getPrice(), requestDto.getStockQuantity());
+        ItemEditor.ItemEditorBuilder itemEditorBuilder = item.toEditor();
 
-        return id;
+        ItemEditor itemEditor = itemEditorBuilder
+                .title(requestDto.getTitle())
+                .content(requestDto.getContent())
+                .price(requestDto.getPrice())
+                .stockQuantity(requestDto.getStockQuantity())
+                .build();
+
+        item.update(itemEditor);
+
+
     }
 
     @Transactional(readOnly = true)
@@ -45,8 +54,8 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public List<ItemListResponseDto> findAllDesc() {
-        return itemRepository.findAllDesc().stream()
+    public List<ItemListResponseDto> findAll(ItemSearch itemSearch) {
+        return itemRepository.getListDESC(itemSearch).stream()
                 .map(ItemListResponseDto::new)
                 .collect(Collectors.toList());
     }
