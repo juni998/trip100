@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import trip100.domain.item.Item;
 import trip100.domain.item.ItemRepository;
+import trip100.exception.ItemNotFoundException;
+import trip100.exception.NotEnoughStockException;
 import trip100.service.ItemService;
 import trip100.web.dto.item.*;
 
@@ -41,8 +43,6 @@ class ItemServiceTest {
         assertThat(findItem.getContent()).isEqualTo("내용");
         assertThat(findItem.getPrice()).isEqualTo(10000);
         assertThat(findItem.getStockQuantity()).isEqualTo(100);
-
-
     }
 
     @Test
@@ -89,7 +89,7 @@ class ItemServiceTest {
 
 
     @Test
-    void 아이템_삭제(){
+    void 아이템_삭제_exception(){
         Item item = Item.builder()
                 .title("제목")
                 .content("내용")
@@ -102,8 +102,7 @@ class ItemServiceTest {
 
         assertThat(itemRepository.count()).isEqualTo(0);
         assertThatThrownBy(() -> itemService.findById(item.getId()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("해당 아이템이 없습니다");
+                .isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
@@ -129,4 +128,55 @@ class ItemServiceTest {
         assertThat(items.get(5).getAuthor()).isEqualTo("작성자 - 25");
     }
 
+    @Test
+    void 아이템_수정_exception() {
+        Item item = Item.builder()
+                .title("제목")
+                .content("내용")
+                .price(10000)
+                .stockQuantity(100)
+                .build();
+        itemRepository.save(item);
+
+        itemService.update(item.getId(), ItemUpdateRequestDto.builder()
+                .title("변경된 제목")
+                .content("변경된 내용")
+                .build());
+
+        assertThatThrownBy(() -> itemService.findById(item.getId() + 1))
+                .isInstanceOf(ItemNotFoundException.class);
+    }
+
+    @Test
+    void 아이템_단건_조회() {
+        Item item = Item.builder()
+                .title("제목")
+                .content("내용")
+                .price(10000)
+                .stockQuantity(100)
+                .build();
+        itemRepository.save(item);
+
+        ItemResponseDto findItem = itemService.findById(item.getId());
+        assertThat(item.getTitle()).isEqualTo("제목");
+        assertThat(item.getContent()).isEqualTo("내용");
+        assertThat(item.getPrice()).isEqualTo(10000);
+        assertThat(item.getStockQuantity()).isEqualTo(100);
+
+    }
+
+    @Test
+    void 아이템_단건_조회_exception() {
+        Item item = Item.builder()
+                .title("제목")
+                .content("내용")
+                .price(10000)
+                .stockQuantity(100)
+                .build();
+        itemRepository.save(item);
+
+        assertThatThrownBy(() -> itemService.findById(item.getId() + 1))
+                .isInstanceOf(ItemNotFoundException.class);
+
+    }
 }

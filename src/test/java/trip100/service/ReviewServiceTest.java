@@ -17,6 +17,8 @@ import trip100.web.dto.review.CreateReviewRequestDto;
 
 import javax.persistence.EntityManager;
 
+import java.util.OptionalDouble;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -63,7 +65,8 @@ class ReviewServiceTest {
         User user2 = createUser();
         User user3 = createUser();
 
-        Item item = createItem();
+        Item
+                item = createItem();
 
         CreateReviewRequestDto dto1 = CreateReviewRequestDto.builder()
                 .itemId(item.getId())
@@ -87,17 +90,12 @@ class ReviewServiceTest {
         reviewService.create(user2.getId(), dto2);
         reviewService.create(user3.getId(), dto3);
 
-        Double avg = item.reviewScoreAvg(item.getReviews());
+        double avg = item.reviewScoreAvg(item.getReviews());
+
 
         assertThat(6.0).isEqualTo(avg);
 
     }
-
-
-
-
-
-
 
 
     private User createUser() {

@@ -9,6 +9,7 @@ import trip100.domain.address.Address;
 import trip100.domain.cart.Cart;
 import trip100.domain.cart.CartRepository;
 import trip100.domain.item.Item;
+import trip100.domain.item.ItemRepository;
 import trip100.domain.user.Role;
 import trip100.domain.user.User;
 import trip100.web.dto.cart.AddCartRequestDto;
@@ -16,6 +17,9 @@ import trip100.web.dto.cart.AddCartRequestDto;
 import javax.persistence.EntityManager;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +33,8 @@ class CartServiceTest {
     @Autowired
     CartRepository cartRepository;
 
+    @Autowired
+    ItemRepository itemRepository;
     @Autowired
     EntityManager em;
 
@@ -46,46 +52,37 @@ class CartServiceTest {
 
         Cart getCart = cartRepository.findAll().get(0);
 
-        assertThat(5).isEqualTo(getCart.getCount());
+        assertThat(getCart.getCount()).isEqualTo(5);
     }
 
     @Test
     void 카트에_여러_상품이_저장되고_조회한다() {
         User user = createUser();
-        Item item1 = createItem();
-        Item item2 = createItem();
-        Item item3 = createItem();
-        Item item4 = createItem();
+
+        List<Item> requestItems = IntStream.range(0, 5)
+                .mapToObj(i -> Item.builder()
+                        .title("제목 - " + i)
+                        .content("내용 -" + i)
+                        .price(10000 + i)
+                        .stockQuantity(100 + i)
+                        .build())
+                .collect(Collectors.toList());
+
+        itemRepository.saveAll(requestItems);
+
+        List<AddCartRequestDto> dtoList = IntStream.range(0, 5)
+                .mapToObj(i -> AddCartRequestDto.builder()
+                        .itemId(requestItems.get(i).getId())
+                        .count(1)
+                        .build())
+                .collect(Collectors.toList());
 
 
-        AddCartRequestDto dto1 = AddCartRequestDto.builder()
-                .itemId(item1.getId())
-                .count(1)
-                .build();
-
-        AddCartRequestDto dto2 = AddCartRequestDto.builder()
-                .itemId(item2.getId())
-                .count(1)
-                .build();
-
-        AddCartRequestDto dto3 = AddCartRequestDto.builder()
-                .itemId(item3.getId())
-                .count(1)
-                .build();
-
-        AddCartRequestDto dto4 = AddCartRequestDto.builder()
-                .itemId(item4.getId())
-                .count(1)
-                .build();
-
-        cartService.addItem(user.getId(), dto1);
-        cartService.addItem(user.getId(), dto2);
-        cartService.addItem(user.getId(), dto3);
-        cartService.addItem(user.getId(), dto4);
+        IntStream.range(0, 5).forEach(i -> cartService.addItem(user.getId(), dtoList.get(i)));
 
         List<Cart> allById = cartRepository.findListByUserId(user.getId());
 
-        assertThat(4).isEqualTo(allById.size());
+        assertThat(allById.size()).isEqualTo(5);
         assertThat(user.getId()).isEqualTo(allById.get(0).getUser().getId());
     }
 
@@ -93,25 +90,18 @@ class CartServiceTest {
     void 저장된_아이템을_장바구니에서_삭제한다() {
         User user = createUser();
         Item item = createItem();
-        Item item2 = createItem();
 
         AddCartRequestDto dto1 = AddCartRequestDto.builder()
                 .itemId(item.getId())
                 .count(1)
                 .build();
 
-        AddCartRequestDto dto2 = AddCartRequestDto.builder()
-                .itemId(item2.getId())
-                .count(3)
-                .build();
 
         cartService.addItem(user.getId(), dto1);
-        cartService.addItem(user.getId(), dto2);
 
         cartService.deleteCart(user.getId());
 
-        assertThat(1).isEqualTo(cartRepository.findAll().size());
-
+        assertThat(cartRepository.findAll().size()).isEqualTo(1);
     }
 
 
