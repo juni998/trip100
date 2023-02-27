@@ -9,6 +9,8 @@ import trip100.domain.review.Review;
 import trip100.domain.review.ReviewRepository;
 import trip100.domain.user.User;
 import trip100.domain.user.UserRepository;
+import trip100.exception.ItemNotFoundException;
+import trip100.exception.UserNotFoundException;
 import trip100.web.dto.review.CreateReviewRequestDto;
 
 import java.util.Optional;
@@ -25,13 +27,11 @@ public class ReviewService {
     private final ItemRepository itemRepository;
 
     public Long create(Long userId, CreateReviewRequestDto requestDto) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
-        );
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
 
-        Item item = itemRepository.findById(requestDto.getItemId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 상품은 존재하지 않습니다")
-        );
+        Item item = itemRepository.findById(requestDto.getItemId())
+                .orElseThrow(ItemNotFoundException::new);
 
         Review review = Review.createReview(item, user, requestDto.getScore(), requestDto.getContent());
 

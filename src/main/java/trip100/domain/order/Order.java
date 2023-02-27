@@ -72,9 +72,9 @@ public class Order {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다");
         }
         this.orderStatus = OrderStatus.CANCEL;
-        for (OrderItem orderItem : orderItems) {
-            orderItem.cancel();
-        }
+
+        orderItems.stream()
+                .forEach(orderItem -> orderItem.cancel());
     }
 
     public int getTotalPrice() {

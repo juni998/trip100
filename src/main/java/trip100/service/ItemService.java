@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import trip100.domain.item.Item;
 import trip100.domain.item.ItemEditor;
 import trip100.domain.item.ItemRepository;
+import trip100.exception.ItemNotFoundException;
 import trip100.web.dto.item.*;
 
 import java.util.List;
@@ -26,29 +27,16 @@ public class ItemService {
     }
 
     public void update(Long id, ItemUpdateRequestDto requestDto) {
-        Item item = itemRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 아이템이 없습니다.")
-        );
+        Item item = itemRepository.findById(id)
+                .orElseThrow(ItemNotFoundException::new);
 
-        ItemEditor.ItemEditorBuilder itemEditorBuilder = item.toEditor();
-
-        ItemEditor itemEditor = itemEditorBuilder
-                .title(requestDto.getTitle())
-                .content(requestDto.getContent())
-                .price(requestDto.getPrice())
-                .stockQuantity(requestDto.getStockQuantity())
-                .build();
-
-        item.update(itemEditor);
-
+        item.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getPrice(), requestDto.getStockQuantity());
 
     }
 
     @Transactional(readOnly = true)
     public ItemResponseDto findById(Long id) {
-        Item entity = itemRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 아이템이 없습니다")
-        );
+        Item entity = itemRepository.findById(id).orElseThrow(ItemNotFoundException::new);
 
         return new ItemResponseDto(entity);
     }
@@ -61,9 +49,7 @@ public class ItemService {
     }
 
     public void delete(Long id) {
-        Item item = itemRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 아이템이 없습니다")
-        );
+        Item item = itemRepository.findById(id).orElseThrow(ItemNotFoundException::new);
 
         itemRepository.delete(item);
     }

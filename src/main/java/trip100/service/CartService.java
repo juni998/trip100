@@ -10,6 +10,9 @@ import trip100.domain.item.Item;
 import trip100.domain.item.ItemRepository;
 import trip100.domain.user.User;
 import trip100.domain.user.UserRepository;
+import trip100.exception.CartNotFoundException;
+import trip100.exception.ItemNotFoundException;
+import trip100.exception.UserNotFoundException;
 import trip100.web.dto.cart.AddCartRequestDto;
 import trip100.web.dto.cart.CartListResponseDto;
 
@@ -30,12 +33,11 @@ public class CartService {
 
 
     public Long addItem(Long userId, AddCartRequestDto requestDto) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
-        );
-        Item item = itemRepository.findById(requestDto.getItemId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 아이템이 없습니다.")
-        );
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+
+        Item item = itemRepository.findById(requestDto.getItemId())
+                .orElseThrow(ItemNotFoundException::new);
 
         Cart cart = Cart.addCart(user, item, requestDto.getCount());
 
@@ -54,9 +56,8 @@ public class CartService {
     }
 
     public void deleteCart(Long id) {
-        Cart cart = cartRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 상품이 장바구니에 존재하지 않습니다")
-        );
+        Cart cart = cartRepository.findById(id)
+                .orElseThrow(CartNotFoundException::new);
 
         cartRepository.delete(cart);
 
