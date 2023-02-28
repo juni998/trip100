@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import trip100.domain.address.Address;
 import trip100.domain.item.Item;
+import trip100.domain.item.ItemRepository;
 import trip100.domain.order.Order;
 import trip100.domain.order.OrderRepository;
 import trip100.domain.order.OrderStatus;
@@ -14,18 +15,28 @@ import trip100.domain.user.User;
 import trip100.exception.NotEnoughStockException;
 import trip100.exception.OrderNotFoundException;
 import trip100.service.OrderService;
+import trip100.web.dto.order.OrderItemDto;
+import trip100.web.dto.order.OrderResponseDto;
 import trip100.web.dto.order.OrderSaveRequestDto;
+import trip100.web.dto.order.OrderSearch;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 class OrderServiceTest {
+
+    @Autowired
+    ItemRepository itemRepository;
 
     @Autowired
     OrderService orderService;
@@ -114,6 +125,43 @@ class OrderServiceTest {
 
         assertThatThrownBy(() -> orderService.cancelOrder(orderId + 1))
                 .isInstanceOf(OrderNotFoundException.class);
+    }
+
+    @Test
+    void 오더리스트_조회() {
+        User user = createUser();
+        List<Item> requestItems = IntStream.range(0, 20)
+                .mapToObj(i -> Item.builder()
+                        .title("아이템 - " + i)
+                        .content("내용 - " + i)
+                        .author("작성자 - " + i)
+                        .price(100 + i)
+                        .stockQuantity(100)
+                        .build()
+                ).collect(Collectors.toList());
+        itemRepository.saveAll(requestItems);
+
+        List<OrderSaveRequestDto> requestOrders = IntStream.range(0, 20)
+                .mapToObj(i -> OrderSaveRequestDto.builder()
+                        .userId(user.getId())
+                        .count(1)
+                        .itemId(requestItems.get(i).getId())
+                        .build()
+                ).collect(Collectors.toList());
+
+
+        IntStream.range(0, 20).forEach(i -> orderService.order(requestOrders.get(i)));
+
+        OrderSearch orderSearch = OrderSearch.builder()
+                .page(1)
+                .build();
+
+        List<OrderResponseDto> orders = orderService.findOrders(user.getId(), orderSearch);
+
+        assertThat(orders.size()).isEqualTo(5);
+        assertThat(orders.get(0).getOrderItems().get(0).getItemTitle()).isEqualTo("아이템 - 19");
+        assertThat(orders.get(4).getOrderItems().get(0).getItemTitle()).isEqualTo("아이템 - 15");
+
     }
 
 
