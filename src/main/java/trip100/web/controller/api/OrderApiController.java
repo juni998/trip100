@@ -5,7 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import trip100.service.OrderService;
+import trip100.web.dto.order.OrderResponseDto;
 import trip100.web.dto.order.OrderSaveRequestDto;
+import trip100.web.dto.order.OrderSearch;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -17,10 +21,17 @@ public class OrderApiController {
 
     @PostMapping("/save")
     public Long order_save(@RequestBody OrderSaveRequestDto requestDto) {
-        log.info("userId : " + requestDto.getUserId());
-        log.info("ItemId : " + requestDto.getItemId());
-        log.info("count : " + requestDto.getCount());
+
         return orderService.order(requestDto);
     }
 
+    @DeleteMapping("/{orderId}")
+    public void order_delete(@PathVariable Long orderId) {
+        orderService.cancelOrder(orderId);
+    }
+
+    @GetMapping("/orders/{userId}")
+    public List<OrderResponseDto> order_page(@PathVariable Long userId,@ModelAttribute OrderSearch orderSearch) {
+        return orderService.findOrders(userId, orderSearch);
+    }
 }

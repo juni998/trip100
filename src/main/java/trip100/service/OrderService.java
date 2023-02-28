@@ -1,7 +1,6 @@
 package trip100.service;
 
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import trip100.domain.delivery.Delivery;
@@ -15,10 +14,12 @@ import trip100.domain.user.UserRepository;
 import trip100.exception.ItemNotFoundException;
 import trip100.exception.OrderNotFoundException;
 import trip100.exception.UserNotFoundException;
+import trip100.web.dto.order.OrderResponseDto;
 import trip100.web.dto.order.OrderSaveRequestDto;
+import trip100.web.dto.order.OrderSearch;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -60,6 +61,12 @@ public class OrderService {
                 .orElseThrow(OrderNotFoundException::new);
 
         order.cancel();
+    }
+
+    public List<OrderResponseDto> findOrders(Long userId, OrderSearch orderSearch) {
+        return orderRepository.findOrders(userId, orderSearch).stream()
+                .map(OrderResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }
