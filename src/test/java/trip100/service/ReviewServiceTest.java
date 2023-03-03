@@ -51,9 +51,9 @@ class ReviewServiceTest {
                 .content(content)
                 .build();
 
-        Long reviewId = reviewService.create(user.getId(), dto);
+        reviewService.create(user.getId(), dto);
 
-        Review findReview = reviewRepository.findById(reviewId).get();
+        Review findReview = reviewRepository.findById(1L).get();
 
         assertThat(10).isEqualTo(findReview.getScore());
         assertThat("리뷰내용").isEqualTo(findReview.getContent());
@@ -90,11 +90,32 @@ class ReviewServiceTest {
         reviewService.create(user2.getId(), dto2);
         reviewService.create(user3.getId(), dto3);
 
-        double avg = item.reviewScoreAvg(item.getReviews());
+        double avg = reviewService.review_avg(item.getId());
 
 
         assertThat(6.0).isEqualTo(avg);
 
+    }
+
+    void 리뷰_삭제() {
+        User user = createUser();
+        Item item = createItem();
+
+        int score = 10;
+
+        String content = "리뷰내용";
+
+        CreateReviewRequestDto dto = CreateReviewRequestDto.builder()
+                .itemId(item.getId())
+                .score(score)
+                .content(content)
+                .build();
+
+        reviewService.create(user.getId(), dto);
+
+        reviewService.delete(1L);
+
+        assertThat(0).isEqualTo(reviewRepository.count());
     }
 
 

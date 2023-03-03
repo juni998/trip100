@@ -98,8 +98,6 @@ public class CartApiControllerTest {
         cartRepository.deleteAll();
     }
 
-    private static String LOGIN_USER;
-
     @Test
     @WithMockUser
     void 카트에_상품이_저장된다() throws Exception {
