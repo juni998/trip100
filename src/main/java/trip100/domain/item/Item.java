@@ -44,14 +44,6 @@ public class Item extends BaseTimeEntity {
         this.price = price;
         this.stockQuantity = stockQuantity;
     }
-
-    public void update(ItemEditor itemEditor) {
-        this.title = title;
-        this.content = content;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-    }
-
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
     }
@@ -59,16 +51,23 @@ public class Item extends BaseTimeEntity {
     public void removeStock(int quantity) {
         int restStock = this.stockQuantity - quantity;
         if (restStock < 0) {
-            throw new NotEnoughStockException("재고수량이 부족합니다");
+            throw new NotEnoughStockException();
         }
         this.stockQuantity = restStock;
     }
 
-    public ItemEditor.ItemEditorBuilder toEditor() {
-        return ItemEditor.builder()
-                .title(title)
-                .content(content)
-                .price(price)
-                .stockQuantity(stockQuantity);
+    public void update(String title, String content, int price, int stockQuantity) {
+        this.title = title;
+        this.content = content;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
     }
+
+    public double reviewScoreAvg(List<Review> reviews) {
+        return reviews.stream()
+                .mapToInt(Review::getScore)
+                .average()
+                .orElse(0);
+    }
+
 }
