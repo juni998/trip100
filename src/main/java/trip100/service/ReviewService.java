@@ -10,9 +10,11 @@ import trip100.domain.review.ReviewRepository;
 import trip100.domain.user.User;
 import trip100.domain.user.UserRepository;
 import trip100.exception.ItemNotFoundException;
+import trip100.exception.ReviewNotFoundException;
 import trip100.exception.UserNotFoundException;
 import trip100.web.dto.review.CreateReviewRequestDto;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class ReviewService {
 
     private final ItemRepository itemRepository;
 
-    public Long create(Long userId, CreateReviewRequestDto requestDto) {
+    public void create(Long userId, CreateReviewRequestDto requestDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
@@ -37,7 +39,21 @@ public class ReviewService {
 
         reviewRepository.save(review);
 
-        return review.getId();
+    }
+
+    public double review_avg(Long itemId) {
+        List<Review> reviews = reviewRepository.findListByItemId(itemId);
+
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(ItemNotFoundException::new);
+
+        return item.reviewScoreAvg(reviews);
+    }
+
+    public void delete(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
+
+        reviewRepository.delete(review);
     }
 
 
