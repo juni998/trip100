@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import trip100.config.auth.LoginUser;
+import trip100.config.auth.dto.SessionUser;
 import trip100.service.OrderService;
 import trip100.web.dto.order.OrderResponseDto;
 import trip100.web.dto.order.OrderSaveRequestDto;
@@ -30,8 +32,8 @@ public class OrderApiController {
         orderService.cancelOrder(orderId);
     }
 
-    @GetMapping("/orders/{userId}")
-    public List<OrderResponseDto> order_page(@PathVariable Long userId,@ModelAttribute OrderSearch orderSearch) {
-        return orderService.findOrders(userId, orderSearch);
+    @GetMapping("/orders")
+    public List<OrderResponseDto> order_page(@ModelAttribute OrderSearch orderSearch, @LoginUser SessionUser user) {
+        return orderService.findOrders(user.getId(), orderSearch);
     }
 }

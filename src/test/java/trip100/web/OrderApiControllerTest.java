@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import trip100.config.auth.dto.SessionUser;
 import trip100.domain.address.Address;
 import trip100.domain.item.Item;
 import trip100.domain.item.ItemRepository;
@@ -178,6 +179,9 @@ public class OrderApiControllerTest {
     @WithMockUser
     void 주문내역_조회() throws Exception {
         User user = createUser();
+        SessionUser sessionUser = SessionUser.builder()
+                .user(user)
+                .build();
         List<Item> requestItems = IntStream.range(0, 20)
                 .mapToObj(i -> Item.builder()
                         .title("아이템 - " + i)
@@ -200,8 +204,9 @@ public class OrderApiControllerTest {
         IntStream.range(0, 20).forEach(i -> orderService.order(requestOrders.get(i)));
 
 
-        mvc.perform(get("/order/orders/{orderId}?page=1&size=5", user.getId())
+        mvc.perform(get("/order/orders?page=1&size=5")
                         .contentType(APPLICATION_JSON)
+                        .sessionAttr("user", sessionUser)
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(5))

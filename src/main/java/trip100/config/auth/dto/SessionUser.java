@@ -17,6 +17,7 @@ public class SessionUser implements Serializable {
 
     private String picture;
 
+    @Builder
     public SessionUser(User user) {
         this.id = user.getId();
         this.name = user.getName();
