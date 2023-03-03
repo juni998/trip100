@@ -32,7 +32,7 @@ public class CartService {
     private final ItemRepository itemRepository;
 
 
-    public Long addItem(Long userId, AddCartRequestDto requestDto) {
+    public void addItem(Long userId, AddCartRequestDto requestDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
@@ -44,8 +44,6 @@ public class CartService {
         cartRepository.save(cart);
 
         cart.createCart(user);
-
-        return cart.getId();
     }
 
     @Transactional(readOnly = true)
@@ -60,8 +58,6 @@ public class CartService {
                 .orElseThrow(CartNotFoundException::new);
 
         cartRepository.delete(cart);
-
-
     }
 
 }

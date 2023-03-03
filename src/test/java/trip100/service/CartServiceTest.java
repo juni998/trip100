@@ -52,6 +52,9 @@ class CartServiceTest {
 
         Cart getCart = cartRepository.findAll().get(0);
 
+        assertThat(getCart.getItem().getTitle()).isEqualTo("제목");
+        assertThat(getCart.getItem().getContent()).isEqualTo("내용");
+        assertThat(getCart.getItem().getAuthor()).isEqualTo("판매자");
         assertThat(getCart.getCount()).isEqualTo(5);
     }
 
@@ -101,7 +104,7 @@ class CartServiceTest {
 
         cartService.deleteCart(user.getId());
 
-        assertThat(cartRepository.findAll().size()).isEqualTo(1);
+        assertThat(cartRepository.findAll().size()).isEqualTo(0);
     }
 
 
@@ -124,6 +127,7 @@ class CartServiceTest {
         Item item = Item.builder()
                 .title("제목")
                 .content("내용")
+                .author("판매자")
                 .price(10000)
                 .stockQuantity(100)
                 .build();

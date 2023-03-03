@@ -15,6 +15,9 @@ public class CartListResponseDto {
     private int price;
     private int count;
 
+//    추가예정
+//    private int totalPrice;
+
     @Builder
     public CartListResponseDto(Cart entity) {
         this.id = entity.getId();
