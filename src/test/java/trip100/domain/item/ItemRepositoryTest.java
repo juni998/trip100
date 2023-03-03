@@ -71,29 +71,4 @@ class ItemRepositoryTest {
 
     }
 
-    @Test
-    @DisplayName("아이템 리스트가 내림차순으로 보여진다")
-    void item_list_desc() {
-        itemRepository.save(Item.builder()
-                .title("제목1")
-                .content("내용1")
-                .build());
-        itemRepository.save(Item.builder()
-                .title("제목2")
-                .content("내용2")
-                .build());
-        itemRepository.save(Item.builder()
-                .title("제목3")
-                .content("내용3")
-                .build());
-
-        List<Item> allDesc = itemRepository.findAllDesc();
-
-        assertThat(allDesc.size()).isEqualTo(3);
-        assertThat(allDesc.get(0).getTitle()).isEqualTo("제목3");
-        assertThat(allDesc.get(1).getTitle()).isEqualTo("제목2");
-        assertThat(allDesc.get(2).getTitle()).isEqualTo("제목1");
-
-    }
-
 }

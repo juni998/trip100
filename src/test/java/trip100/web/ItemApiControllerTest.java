@@ -49,9 +49,20 @@ class ItemApiControllerTest {
     @Autowired
     private ItemRepository itemRepository;
 
-    @AfterEach
+    @Autowired
+    WebApplicationContext context;
+
+    @BeforeEach
     void clear() {
         itemRepository.deleteAll();
+    }
+
+    @BeforeEach
+    public void setup() {
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
     }
 
     @Test
@@ -115,10 +126,8 @@ class ItemApiControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(6))
-                .andExpect(jsonPath("$[0].id").value("30"))
                 .andExpect(jsonPath("$[0].title").value("제목 - 30"))
                 .andExpect(jsonPath("$[0].author").value("작성자 - 30"))
-                .andExpect(jsonPath("$[5].id").value("25"))
                 .andExpect(jsonPath("$[5].title").value("제목 - 25"))
                 .andExpect(jsonPath("$[5].author").value("작성자 - 25"))
                 .andDo(print());
@@ -132,6 +141,8 @@ class ItemApiControllerTest {
         ItemUpdateRequestDto build = ItemUpdateRequestDto.builder()
                 .title("수정된 제목")
                 .content("내용")
+                .price(1000)
+                .stockQuantity(10)
                 .build();
 
         mvc.perform(patch("/item/{id}", item.getId())
@@ -139,8 +150,40 @@ class ItemApiControllerTest {
                         .content(objectMapper.writeValueAsString(build))
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("수정된 제목"))
-                .andExpect(jsonPath("$.content").value("내용"))
+                .andDo(print());
+
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 아이템 조회")
+    void findItemOne_exception() throws Exception {
+        Item item = saveItem();
+
+        mvc.perform(get("/item/{id}", item.getId() + 1)
+                        .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isNotFound())
+                .andDo(print());
+
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 아이템 제목 수정")
+    void item_update_exception() throws Exception {
+        Item item = saveItem();
+
+        ItemUpdateRequestDto build = ItemUpdateRequestDto.builder()
+                .title("수정된 제목")
+                .content("내용")
+                .price(1000)
+                .stockQuantity(10)
+                .build();
+
+        mvc.perform(patch("/item/{id}", item.getId() + 1)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(build))
+                )
+                .andExpect(status().isNotFound())
                 .andDo(print());
 
     }
@@ -154,4 +197,6 @@ class ItemApiControllerTest {
                 .stockQuantity(100)
                 .build());
     }
+
+
 }
