@@ -20,11 +20,6 @@
 
 <br>
 
-## 아키텍처
-- ERD
-<img width="522" alt="20230228195802" src="https://user-images.githubusercontent.com/103838236/221834552-6273f94c-55fb-4a40-9cb6-3c666826c69b.png">
-
-
 
 ## Usecase
 ### 공통 및 기타
