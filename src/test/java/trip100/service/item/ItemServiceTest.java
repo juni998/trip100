@@ -179,4 +179,23 @@ class ItemServiceTest {
                 .isInstanceOf(ItemNotFoundException.class);
 
     }
+
+    @Test
+    void 추천_아이템_조회_추천_아이템은_3개다() {
+        List<Item> requestItems = IntStream.range(1, 31)
+                .mapToObj(i -> Item.builder()
+                        .title("제목 - " + i)
+                        .author("작성자 - " + i)
+                        .build())
+                .collect(Collectors.toList());
+        itemRepository.saveAll(requestItems);
+
+        List<ItemListResponseDto> dtos = itemService.recommendItem();
+
+        assertThat(dtos.size()).isEqualTo(3);
+
+        System.out.println("dtos.get(0) = " + dtos.get(0).getTitle());
+        System.out.println("dtos.get(1) = " + dtos.get(1).getTitle());
+        System.out.println("dtos.get(2) = " + dtos.get(2).getTitle());
+    }
 }

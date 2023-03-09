@@ -187,6 +187,24 @@ class ItemApiControllerTest {
                 .andDo(print());
 
     }
+    @Test
+    @DisplayName("아이템 여러개 조회")
+    void recommendItem() throws Exception {
+        List<Item> requestItems = IntStream.range(1, 31)
+                .mapToObj(i -> Item.builder()
+                        .title("제목 - " + i)
+                        .author("작성자 - " + i)
+                        .build())
+                .collect(Collectors.toList());
+        itemRepository.saveAll(requestItems);
+
+        mvc.perform(get("/item/recommend")
+                        .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3))
+                .andDo(print());
+    }
 
 
     private Item saveItem() {

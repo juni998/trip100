@@ -159,6 +159,10 @@ class OrderServiceTest {
         List<OrderResponseDto> orders = orderService.findOrders(user.getId(), orderSearch);
 
         assertThat(orders.size()).isEqualTo(5);
+        assertThat(orders.get(0).getName()).isEqualTo("이름");
+        assertThat(orders.get(0).getAddress().getCity()).isEqualTo("서울");
+        assertThat(orders.get(0).getAddress().getStreet()).isEqualTo("은평구");
+        assertThat(orders.get(0).getAddress().getZipcode()).isEqualTo("123-123");
         assertThat(orders.get(0).getOrderItems().get(0).getItemTitle()).isEqualTo("아이템 - 19");
         assertThat(orders.get(4).getOrderItems().get(0).getItemTitle()).isEqualTo("아이템 - 15");
 
