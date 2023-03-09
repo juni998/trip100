@@ -48,4 +48,9 @@ public class ItemApiController {
     public List<ItemListResponseDto> item_list(@ModelAttribute ItemSearch itemSearch) {
         return itemService.findAll(itemSearch);
     }
+
+    @GetMapping("/recommend")
+    public List<ItemListResponseDto> itemRecommend() {
+        return itemService.recommendItem();
+    }
 }

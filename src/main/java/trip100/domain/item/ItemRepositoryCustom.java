@@ -10,4 +10,6 @@ import java.util.List;
 public interface ItemRepositoryCustom {
 
     List<Item> getListDESC(ItemSearch itemSearch);
+
+    List<Item> getListRecommend();
 }

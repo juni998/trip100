@@ -53,4 +53,10 @@ public class ItemService {
 
         itemRepository.delete(item);
     }
+
+    public List<ItemListResponseDto> recommendItem() {
+        return itemRepository.getListRecommend().stream()
+                .map(ItemListResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }
