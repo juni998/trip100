@@ -28,7 +28,7 @@
 - Java11
 - SpringBoot
 - JPA
-- H2
+- H2 & MariaDB
 - QueryDSL
 
 <br>
