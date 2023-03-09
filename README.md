@@ -37,5 +37,5 @@
 - SpringBoot
 - JPA
 - QueryDSL
-- MariaDB
+- H2Database
 
