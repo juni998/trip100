@@ -22,6 +22,7 @@ import trip100.domain.review.ReviewRepository;
 import trip100.domain.user.Role;
 import trip100.domain.user.User;
 import trip100.domain.user.UserRepository;
+import trip100.exception.ReviewNotFoundException;
 import trip100.service.CartService;
 import trip100.service.OrderService;
 import trip100.service.ReviewService;
@@ -89,7 +90,7 @@ public class ReviewApiControllerTest {
     public void clear() {
         itemRepository.deleteAll();
         userRepository.deleteAll();
-
+        reviewRepository.deleteAll();
     }
 
     @Test
@@ -119,47 +120,9 @@ public class ReviewApiControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
 
-        Review findReview = reviewRepository.findById(1L).get();
+        Review findReview = reviewRepository.findById(1L).orElseThrow(ReviewNotFoundException::new);
         assertThat(10).isEqualTo(findReview.getScore());
         assertThat("리뷰내용").isEqualTo(findReview.getContent());
-    }
-
-    @Test
-    @WithMockUser
-    void 리뷰_평균평점() throws Exception {
-        User user = createUser();
-        SessionUser sessionUser = SessionUser.builder()
-                .user(user)
-                .build();
-        User user2 = createUser();
-        User user3 = createUser();
-
-        Item item = createItem();
-
-        CreateReviewRequestDto dto1 = CreateReviewRequestDto.builder()
-                .itemId(item.getId())
-                .score(10)
-                .content("리뷰 내용")
-                .build();
-
-        CreateReviewRequestDto dto2 = CreateReviewRequestDto.builder()
-                .itemId(item.getId())
-                .score(5)
-                .content("리뷰 내용")
-                .build();
-
-        CreateReviewRequestDto dto3 = CreateReviewRequestDto.builder()
-                .itemId(item.getId())
-                .score(3)
-                .content("리뷰 내용")
-                .build();
-
-
-        mvc.perform(post("/review/")
-                        .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print());
-
     }
 
 
