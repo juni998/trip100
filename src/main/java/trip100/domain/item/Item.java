@@ -30,6 +30,7 @@ public class Item extends BaseTimeEntity {
 
     private int price;
 
+    @Column(name = "stock_quantity")
     private int stockQuantity;
 
     @OneToMany(mappedBy = "item")

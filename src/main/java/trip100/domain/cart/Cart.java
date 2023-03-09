@@ -26,6 +26,7 @@ public class Cart {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @Column(name = "cart_count")
     private int count;
 
 
