@@ -9,6 +9,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import trip100.config.auth.dto.SessionUser;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
@@ -27,6 +28,14 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+
+        HttpServletRequest request = (HttpServletRequest)
+                webRequest.getNativeRequest();
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return null;
+        }
+
         return httpSession.getAttribute("user");
     }
 }
