@@ -17,14 +17,8 @@
 
 <br>
 
-  
-<details>
-<summary>중복되는 로그인 체크 기능을 AOP로 분리</summary>
+- [중복되는 로그인 체크 기능을 ArgumentResolver로 분리](https://github.com/juni998/trip100/wiki/%EC%A4%91%EB%B3%B5%EB%90%98%EB%8A%94-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%B2%B4%ED%81%AC-%EA%B8%B0%EB%8A%A5%EC%9D%84-ArgumentResolver%EB%A1%9C-%EB%B6%84%EB%A6%AC)
 
-
-
-</details>
-  
 <br>
 
 ## 기술 스택과, 사용한 이유
@@ -91,3 +85,7 @@
 - 리뷰
 
 <br>
+
+
+## Use-Case
+- [Use-Case](https://github.com/juni998/trip100/wiki/Use-Case)
