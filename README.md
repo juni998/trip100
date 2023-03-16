@@ -12,8 +12,22 @@
 - 비동기를 활용하여 빠른 시간 내에 외부 API 호출
 
 <Br>
+  
+## 기술적 이슈와 해결
 
-  ## 기술 스택과, 사용한 이유
+<br>
+
+  
+<details>
+<summary>중복되는 로그인 체크 기능을 AOP로 분리</summary>
+
+
+
+</details>
+  
+<br>
+
+## 기술 스택과, 사용한 이유
 
 - Java11
 - SpringBoot
