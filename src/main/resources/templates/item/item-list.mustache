@@ -1,24 +1,8 @@
 {{>layout/header}}
 
+{{>layout/bodyHeader}}
 
 <div class="container">
-    <h1>스프링 부트로 시작하는 웹 서비스 Ver.2</h1>
-    {{#userName}}
-        {{userName}}
-    {{/userName}}
-    <div class="row">
-        <div class="col-md-6">
-            <a href="/item/save" role="button" class="btn btn-primary">글 등록</a>
-            {{#userName}}
-                Logged in as: <span id="user">{{userName}}</span>
-                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
-            {{/userName}}
-            {{^userName}}
-                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
-            {{/userName}}
-        </div>
-    </div>
-    <br>
     <!-- 목록 출력 영역 -->
     <table class="table table-horizontal table-bordered">
         <thead class="thead-strong">
@@ -34,7 +18,7 @@
         {{#item}}
             <tr>
                 <td>{{id}}</td>
-                <td><a href="/item/update/{{id}}">{{title}}</a></td>
+                <td><a href="/item/info/{{id}}">{{title}}</a></td>
                 <td>{{author}}</td>
                 <td>{{price}}</td>
                 <td>{{modifiedDate}}</td>

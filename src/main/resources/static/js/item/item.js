@@ -10,8 +10,8 @@ var main = {
         $('#btn-delete').on('click', function () {
             _this.delete();
         });
-        $('#btn-order').on('click', function () {
-            _this.order();
+        $('#btn-cart-save').on('click', function () {
+            _this.cart();
         });
     },
     save : function() {
@@ -66,10 +66,27 @@ var main = {
             type : 'DELETE',
             url : '/item/' + id,
             dataType: 'json',
-            contentType: 'application/json; charset=utf-8'
+            contentType: 'application/json; charset=utf-8',
         }).done(function() {
             alert('글이 삭제되었습니다.');
             window.location.href = '/item';
+        }).fail(function (error){
+            alert(JSON.stringify(error));
+        });
+    },
+    cart : function () {
+        var data = {
+            userId: $('#userId').val(),
+            itemId: $('#id').val(),
+            count: $('#count').val()
+        };
+        $.ajax({
+            type : 'POST',
+            url : '/cart/save',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function() {
+            alert('장바구니에 담았습니다.');
         }).fail(function (error){
             alert(JSON.stringify(error));
         });

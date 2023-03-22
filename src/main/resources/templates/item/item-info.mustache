@@ -6,6 +6,7 @@
     <h1>상품 조회</h1>
     <div class="col-md-4">
         <form>
+            <input type="hidden" class="form-control" id="userId" value="{{userId}}" readonly>
             <div class="form-group">
                 <label for="id">글 번호</label>
                 <input type="text" class="form-control" id="id" value="{{item.id}}" readonly>
@@ -30,13 +31,11 @@
                 <label for="stockQuantity">재고수량</label>
                 <input type="number" class="form-control"  value="{{item.stockQuantity}}" readonly>
             </div>
-
-            <a href="/" role="button" class="btn btn-secondary">취소</a>
             <div class="form-group">
-                <label for="count">구매수량</label>
+                <label for="count">주문수량</label>
                 <input type="number" class="form-control" id="count" value="1">
             </div>
-            <a href="/order/save/{{item.id}}?count=count" role="button">주문</a>
+            <a href="/order/{{item.id}}" role="button">주문</a>
             <button type="button" class="btn btn-primary" id="btn-cart-save">장바구니 담기</button>
         </form>
     </div>

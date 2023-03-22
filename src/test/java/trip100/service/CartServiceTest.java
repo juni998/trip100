@@ -44,11 +44,12 @@ class CartServiceTest {
         Item item = createItem();
 
         AddCartRequestDto addCartRequestDto = AddCartRequestDto.builder()
+                .userId(user.getId())
                 .itemId(item.getId())
                 .count(5)
                 .build();
 
-        cartService.addItem(user.getId(), addCartRequestDto);
+        cartService.addItem(addCartRequestDto);
 
         Cart getCart = cartRepository.findAll().get(0);
 
@@ -75,13 +76,14 @@ class CartServiceTest {
 
         List<AddCartRequestDto> dtoList = IntStream.range(0, 5)
                 .mapToObj(i -> AddCartRequestDto.builder()
+                        .userId(user.getId())
                         .itemId(requestItems.get(i).getId())
                         .count(1)
                         .build())
                 .collect(Collectors.toList());
 
 
-        IntStream.range(0, 5).forEach(i -> cartService.addItem(user.getId(), dtoList.get(i)));
+        IntStream.range(0, 5).forEach(i -> cartService.addItem(dtoList.get(i)));
 
         List<Cart> allById = cartRepository.findListByUserId(user.getId());
 
@@ -95,12 +97,13 @@ class CartServiceTest {
         Item item = createItem();
 
         AddCartRequestDto dto1 = AddCartRequestDto.builder()
+                .userId(user.getId())
                 .itemId(item.getId())
                 .count(1)
                 .build();
 
 
-        cartService.addItem(user.getId(), dto1);
+        cartService.addItem(dto1);
 
         cartService.deleteCart(user.getId());
 

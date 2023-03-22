@@ -4,8 +4,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import trip100.domain.delivery.QDelivery;
 import trip100.domain.user.QUser;
-import trip100.web.dto.OrderSimpleQueryTest;
-import trip100.web.dto.QOrderSimpleQueryTest;
 import trip100.web.dto.order.*;
 
 import java.util.List;

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import trip100.config.auth.LoginUser;
 import trip100.config.auth.dto.SessionUser;
@@ -32,20 +33,9 @@ public class IndexController {
         if (user != null) {
             model.addAttribute("userName", user.getName());
         }
+
+        model.addAttribute("item", itemService.recommendItem());
         return "index";
-    }
-
-    @GetMapping("/item/save")
-    public String itemSave() {
-        return "item/item-save";
-    }
-
-    @GetMapping("/item/update/{id}")
-    public String itemUpdate(@PathVariable Long id, Model model, @LoginUser SessionUser user) {
-        log.info("userId : " + user.getId());
-        model.addAttribute("item", itemService.findById(id));
-        model.addAttribute("user_id", user.getId());
-        return "item/item-update";
     }
 
     @GetMapping("/order/{itemId}")
@@ -56,6 +46,8 @@ public class IndexController {
         model.addAttribute("user", user);
         return "order/order-save";
     }
+
+
 
 
 

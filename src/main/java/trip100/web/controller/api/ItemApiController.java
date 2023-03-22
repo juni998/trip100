@@ -44,10 +44,6 @@ public class ItemApiController {
         itemService.delete(id);
     }
 
-    @GetMapping("/list")
-    public List<ItemListResponseDto> item_list(@ModelAttribute ItemSearch itemSearch) {
-        return itemService.findAll(itemSearch);
-    }
 
     @GetMapping("/recommend")
     public List<ItemListResponseDto> itemRecommend() {

@@ -1,20 +1,32 @@
 {{>layout/header}}
-<div class="container">
-    <h1>스프링 부트로 시작하는 웹 서비스 Ver.2</h1>
-    <div class="row">
-        <div class="col-md-6">
-            {{#userName}}
-                Logged in as: <span id="user">{{userName}}</span>
-                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
-            {{/userName}}
-            {{^userName}}
-                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
-                <a href="/oauth2/authorization/naver" class="btn btn-success active" role="button">Naver Login</a>
-            {{/userName}}
-            <br>
-            <a href="/item">상품</a>
-        </div>
-    </div>
-    <br>
+
+<br>
+
+{{>layout/bodyHeader}}
+
+<br>
+<h2>추천 상품</h2>
+<!-- 목록 출력 영역 -->
+<table class="table table-horizontal table-bordered">
+    <thead class="thead-strong">
+    <tr>
+        <th>게시글번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>최종수정일</th>
+    </tr>
+    </thead>
+    <tbody id="tbody">
+    {{#item}}
+        <tr>
+            <td>{{id}}</td>
+            <td><a href="/item/info/{{id}}">{{title}}</a></td>
+            <td>{{author}}</td>
+            <td>{{modifiedDate}}</td>
+        </tr>
+    {{/item}}
+    </tbody>
+</table>
 </div>
+
 {{>layout/footer}}

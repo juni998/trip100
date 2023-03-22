@@ -32,8 +32,8 @@ public class CartService {
     private final ItemRepository itemRepository;
 
 
-    public void addItem(Long userId, AddCartRequestDto requestDto) {
-        User user = userRepository.findById(userId)
+    public void addItem(AddCartRequestDto requestDto) {
+        User user = userRepository.findById(requestDto.getUserId())
                 .orElseThrow(UserNotFoundException::new);
 
         Item item = itemRepository.findById(requestDto.getItemId())

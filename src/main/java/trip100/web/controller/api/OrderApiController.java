@@ -8,7 +8,6 @@ import trip100.config.auth.LoginUser;
 import trip100.config.auth.dto.SessionUser;
 import trip100.domain.order.OrderRepository;
 import trip100.service.OrderService;
-import trip100.web.dto.OrderSimpleQueryTest;
 import trip100.web.dto.order.OrderResponseDto;
 import trip100.web.dto.order.OrderSaveRequestDto;
 import trip100.web.dto.order.OrderSearch;

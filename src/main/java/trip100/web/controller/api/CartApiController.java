@@ -21,8 +21,11 @@ public class CartApiController {
     private final CartService cartService;
 
     @PostMapping("/save")
-    public void cart_save(@RequestBody AddCartRequestDto requestDto, @LoginUser SessionUser user) {
-        cartService.addItem(user.getId(), requestDto);
+    public void cart_save(@RequestBody AddCartRequestDto requestDto) {
+        log.info("userId : ", requestDto.getUserId());
+        log.info("itemId : ", requestDto.getItemId());
+        log.info("count : ", requestDto.getCount());
+        cartService.addItem(requestDto);
     }
 
     @DeleteMapping("/delete/{id}")

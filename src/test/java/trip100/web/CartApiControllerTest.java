@@ -109,6 +109,7 @@ public class CartApiControllerTest {
         Item item = createItem();
 
         AddCartRequestDto dto = AddCartRequestDto.builder()
+                .userId(user.getId())
                 .itemId(item.getId())
                 .count(3)
                 .build();
@@ -153,13 +154,14 @@ public class CartApiControllerTest {
 
         List<AddCartRequestDto> dtoList = IntStream.range(0, 5)
                 .mapToObj(i -> AddCartRequestDto.builder()
+                        .userId(user.getId())
                         .itemId(requestItems.get(i).getId())
                         .count(1)
                         .build())
                 .collect(Collectors.toList());
 
 
-        IntStream.range(0, 5).forEach(i -> cartService.addItem(user.getId(), dtoList.get(i)));
+        IntStream.range(0, 5).forEach(i -> cartService.addItem(dtoList.get(i)));
 
 
         mvc.perform(get("/cart/list")
@@ -184,11 +186,12 @@ public class CartApiControllerTest {
         Item item = createItem();
 
         AddCartRequestDto dto = AddCartRequestDto.builder()
+                .userId(user.getId())
                 .itemId(item.getId())
                 .count(3)
                 .build();
 
-        cartService.addItem(user.getId(), dto);
+        cartService.addItem(dto);
 
         mvc.perform(delete("/cart/delete/{id}", 1L)
                         .contentType(APPLICATION_JSON)
